@@ -1,6 +1,9 @@
 # Tesseract-Node.js-OCR
 
-* Download PostgreSQL then create a database named ```nodejs-ocr-db```
+* Install node v8 or higher
+* Download PostgreSQL
 * Clone project then run ```npm install``` into the cloned directory
-* Condigure ```.env``` file with your database details
+* Configure ```.env``` file with your enviorment variables
+* Go into ```/config``` folder and edit ```config.json``` with your database credentials (when you install PostgreSQL, don't forget your credentials )
+* Run ```sequilize db:create``` to create the database
 * Run ```nodemon start``` to start the server
