@@ -3,11 +3,14 @@ require('dotenv').config();
 
 const express = require('express');
 const db = require(__dirname + '/models/index');
-
+const userRouter = require('./routes/user');
 
 const app = express();
 const port = process.env.PORT;
 
 
-app.get('/', (req, res) => res.status(200).send('Hello World!'))
+app.use(express.json());
+
+app.use('/', userRouter);
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
