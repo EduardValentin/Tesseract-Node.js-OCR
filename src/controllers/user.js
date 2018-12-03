@@ -65,9 +65,20 @@ const loginUser =  (req, res, next) => {
   });
 };
 
-const deleteUser = (req,res,next) => {
+const deleteUser = (req, res, next) => {
+  const { id } = req.body;
+  Database.User.destroy({
+    where: {
+      id,
+    }
+  }).then(deletedRowsCount => {
+    if(!deletedRowsCount) {
+      res.status(404).send({error: 'User not found'});
+    }
+    res.status(204).send({error: 'User deleted succesfuly'});  
+  })
 
-}
+};
 
 module.exports = {
   registerUser,
