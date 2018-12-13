@@ -1,88 +1,63 @@
-const Database = require('../models/index');
-const Bcrypt = require('bcrypt');
-const Sequelize = require('sequelize');
-const jwt = require('jsonwebtoken');
+const Service = require('../services/user');
+const UserService = new Service();
 
-const registerUser = (req, res, next) => {
-  Bcrypt.hash(req.body.password, 10)
-  .then( hash => {
-    Database.User.create({
-      ...req.body,
-      password: hash,
-    })
-    .then( user => {
-      res.status(200).send({
-        user,
-      })
-      .catch(error => {
-        res.status(400).send({
-          error,
-        })
-      });
-    })
-    .catch(error => {
-      res.status(500).send(error);
+const sendError = (res, status, error) => {
+  res.status(status).send({
+    error,
+  });
+}
+
+const registerUser = async (req, res, next) => {
+  const user = {
+    ...req.body,
+    password: req.body.password,
+  };
+
+  try {
+    const newUser = await UserService.createNew(user);
+    res.status(200).send({
+      user: newUser,
     });
-  });
+  }
+  catch (error) {
+    sendError(res, 500, error.message);
+  }
 };
 
-const getUsers =  (req, res, next) => {
-  Database.User.findAll()
-  .then(result => res.status(200).send(result));
-};
-
-const loginUser =  (req, res, next) => {
-  Database.User.findAll({
-    where: {
-      username: req.body.username,
-    },
-  })
-  .then((user) => {
-    const plainTextPassword = req.body.password;
-    Bcrypt.compare(plainTextPassword, user[0].password)
-    .then((isEqual) => {
-      console.log(user[0].password,'----  ',plainTextPassword,'   ---',isEqual)
-      if(isEqual){
-        const token = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + 3600,
-          username: user[0].username,
-        }, process.env.JWT_SECRET);
-        return token;
-      }
+const getUsers = async (req, res, next) => {
+  try {
+    const allUsers = await UserService.getAll();
+    res.status(200).send({
+      users: allUsers,
     })
-    .then( token => {
-      if(token) {
-        return res.status(200).send({
-          "token": token,
-        });
-      } else {
-        res.status(401).send({error: 'Unauthorized'});
-      }
-    })
-  })
-  .catch(error => {
-    res.status(404).send(error);
-  });
+  }
+  catch (error) {
+    sendError(res, 404, error);
+  }
 };
 
-const deleteUser = (req, res, next) => {
+const loginUser = async (req, res, next) => {
+  try {
+    const token = await UserService.login(req.body);
+    res.status(200).send({ token });
+  }
+  catch (error) {
+    sendError(res, 401, error.message);
+  }
+};
+
+const deleteUser = async (req, res, next) => {
   const { id } = req.body;
-  Database.User.destroy({
-    where: {
-      id,
-    }
-  }).then(deletedRowsCount => {
-    if(!deletedRowsCount) {
-      res.status(404).send({error: 'User not found'});
-    }
-    res.status(204).send({error: 'User deleted succesfuly'});  
-  })
-
+  const deletedRowsCount = await UserService.delete(id);
+  if (!deletedRowsCount) {
+    sendError(res, 404, 'User not found');
+  }
+  res.status(204).send({ message: 'User deleted succesfuly' });
 };
 
 module.exports = {
   registerUser,
   getUsers,
   loginUser,
-  deleteUser,
+  deleteUser
 };
