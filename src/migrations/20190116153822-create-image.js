@@ -16,8 +16,8 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
      },
-     path: {
-       type: Sequelize.STRING,
+     data: {
+       type: Sequelize.BLOB('lon'),
        allowNull: false,
      },
      createdAt: {

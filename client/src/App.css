@@ -21,8 +21,18 @@ html, body {
 .nav {
   color: white;
   background-color: #001f3f;
+  margin-bottom: 4rem;
 }
 
+.dropzone{
+  max-width: 80%;
+  margin: 0 auto;
+  border: 3px gray dotted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem;
+}
 
 .nav a {
   font-size: 1rem;
@@ -37,6 +47,31 @@ html, body {
 
 .nav a:hover {
   color: #7fdbff;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dbtn {
+  border: 2px dotted gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
 }
 
 @keyframes appear {
