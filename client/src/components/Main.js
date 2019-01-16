@@ -1,16 +1,15 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import SignUpForm from './SignUpForm';
-import LogInForm from './LogInForm';
+import AuthPage from './auth/AuthPage';
+import Home from './Home';
 
-const Home = () => <h1>sal persoana logata</h1>;
+
 
 const Main = () => {
   const isLoggedIn = sessionStorage.getItem('isLoggedIn');
   return (
     <Switch>
       <Route
-        exact
         path="/"
         render={() => {
           if (isLoggedIn) {
@@ -19,14 +18,18 @@ const Main = () => {
           return (
             <Redirect
               to={{
-                pathname: '/logIn'
+                pathname: '/auth/logIn'
               }}
             />
           );
         }}
       />
-      <Route path="/logIn" component={LogInForm} />
-      <Route path="/signUp" component={SignUpForm} />
+      <Route path="/auth" render={() => {
+        if (isLoggedIn) {
+          return <Redirect to={{ pathname: '/'}} />;
+        }
+        return <AuthPage />;
+      }} />
     </Switch>
   );
 };

@@ -1,3 +1,7 @@
+html, body {
+  font-size: 16px;
+}
+
 .App {
   height: 100vh;
   color: black;
@@ -12,6 +16,27 @@
   animation-duration: 2s;
   animation-name: appear;
   animation-direction: forwards;
+}
+
+.nav {
+  color: white;
+  background-color: #001f3f;
+}
+
+
+.nav a {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s linear;
+}
+
+.nav a.selected {
+  color: #7fdbff;
+}
+
+.nav a:hover {
+  color: #7fdbff;
 }
 
 @keyframes appear {
