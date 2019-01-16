@@ -1,4 +1,4 @@
-const Service = require('../services/user');
+const Service = require('../services/user-service');
 const UserService = new Service();
 
 const sendError = (res,status,error) => {
