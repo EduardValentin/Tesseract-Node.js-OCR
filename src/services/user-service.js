@@ -7,7 +7,7 @@ class UserService {
     this.getAll = async () => {
       return Database.User.findAll();
     };
-    
+
     this.createNew = async (user) => {
       const hash = await Bcrypt.hash(user.password, 10);
       const newUser = await Database.User.create({
@@ -24,7 +24,7 @@ class UserService {
         },
       });
 
-      if(!currentUser) {
+      if (!currentUser) {
         throw Error("Username or password doesnt't match");
       }
       const plainTextPassword = credentials.password;
@@ -35,7 +35,7 @@ class UserService {
           username: currentUser[0].username,
         }, process.env.JWT_SECRET);
 
-        if(!token) {
+        if (!token) {
           throw new Error("Username or password doesnt't match");
         }
 
