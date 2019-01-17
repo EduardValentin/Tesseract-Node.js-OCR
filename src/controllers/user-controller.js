@@ -3,23 +3,22 @@ const UserService = new Service();
 
 const sendError = (res, status, error) => {
   res.status(status).send({
-    error,
+    error
   });
-}
+};
 
 const registerUser = async (req, res, next) => {
   const user = {
     ...req.body,
-    password: req.body.password,
+    password: req.body.password
   };
 
   try {
     const newUser = await UserService.createNew(user);
     res.status(200).send({
-      user: newUser,
+      user: newUser
     });
-  }
-  catch (error) {
+  } catch (error) {
     sendError(res, 500, error.message);
   }
 };
@@ -28,10 +27,9 @@ const getUsers = async (req, res, next) => {
   try {
     const allUsers = await UserService.getAll();
     res.status(200).send({
-      users: allUsers,
-    })
-  }
-  catch (error) {
+      users: allUsers
+    });
+  } catch (error) {
     sendError(res, 404, error);
   }
 };
@@ -40,8 +38,7 @@ const loginUser = async (req, res, next) => {
   try {
     const token = await UserService.login(req.body);
     res.status(200).send({ token });
-  }
-  catch (error) {
+  } catch (error) {
     sendError(res, 401, error.message);
   }
 };

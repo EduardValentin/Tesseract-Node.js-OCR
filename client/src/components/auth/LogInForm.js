@@ -28,12 +28,13 @@ class LogInForm extends Component {
     })
       .then(response => {
         response.json().then(j => {
-          console.log('login response', j)
-          if(j.token !== 'undefined') {
+          console.log('login response', j);
+          if (j.token !== undefined && response.statusText !== 'Unauthorized') {
+            debugger;
             sessionStorage.setItem('isLoggedIn', j.token);
-            window.location = '/'
+            window.location = '/';
           }
-        })
+        });
       })
       .catch(err => {
         debugger;
