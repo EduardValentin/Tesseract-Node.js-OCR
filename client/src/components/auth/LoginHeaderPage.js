@@ -7,12 +7,12 @@ const HeaderPage = () => {
       <div className="container-fluid w-100 p-0">
         <div className="row no-gutters w-100">
           <div className="col bg-light">
-            <Link className="link d-block w-100 h-100 p-3" to="/logIn">
+            <Link className="link d-block w-100 h-100 p-3" to="/auth/logIn">
               Log in
             </Link>
           </div>
           <div className="col bg-light border-left">
-            <Link className="link w-100 d-block h-100 p-3" to="/signUp">
+            <Link className="link w-100 d-block h-100 p-3" to="/auth/signUp">
               Sign up
             </Link>
           </div>

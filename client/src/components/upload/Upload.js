@@ -10,38 +10,31 @@ class Upload extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.postData = this.postData.bind(this);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
     const data = new FormData()
-    data.append('file', this.state.image, this.state.image.name)
-    data.append('image_name',this.state.name);
-    debugger
+    data.append('data', this.state.image, this.state.image.name)
+    // data.append('name',this.state.name);
+    this.postData(data).then(() => {
+      console.log("sent");
+    });
+
+    e.preventDefault();
+
+  }
+
+  postData(data){
     return fetch('http://localhost:3000/upload', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
+      body: data, // body data type must match "Content-Type" header
       headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-        // "Content-Type": "application/x-www-form-urlencoded",
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // no-referrer, *client
-      body: data // body data type must match "Content-Type" header
+        'Authorization': sessionStorage.getItem('isLoggedIn'),
+      }
     })
-      .then(response => {
-        // redirect to success
-        window.location = '/upload/succes';
-
-      })
-      .catch(err => {
-        // redirect to error
-        this.setState({
-          error: 'Something wrong happened'
-        })
-        window.location = '/upload';
-      }); // parses response to JSON
   }
+
   handleUpload(event){
     this.setState({
       image: event.target.files[0],

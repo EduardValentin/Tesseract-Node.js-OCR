@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './header/Header';
 import { Switch, Route } from 'react-router-dom';
 import Upload from './upload/Upload';
+import NewsFeed from './NewsFeed';
 
 class Home extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Home extends Component {
         <Header />
         <Switch>
           <Route exact path="/upload" component={Upload} />
+          <Route exact path="/news-feed" component={NewsFeed} />
         </Switch>
       </div>
     );

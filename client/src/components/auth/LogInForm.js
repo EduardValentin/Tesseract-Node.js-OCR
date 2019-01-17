@@ -27,8 +27,13 @@ class LogInForm extends Component {
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     })
       .then(response => {
-        console.log(response.json());
-        sessionStorage.setItem('isLoggedIn', 'true');
+        response.json().then(j => {
+          console.log('login response', j)
+          if(j.token !== 'undefined') {
+            sessionStorage.setItem('isLoggedIn', j.token);
+            window.location = '/'
+          }
+        })
       })
       .catch(err => {
         debugger;

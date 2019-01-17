@@ -10,7 +10,8 @@ const Main = () => {
   return (
     <Switch>
       <Route
-        path="/"
+        exact
+        path="/:segment?"
         render={() => {
           if (isLoggedIn) {
             return <Home />;
